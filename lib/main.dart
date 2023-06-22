@@ -8,7 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'tareasPendientes.dart';
 
-//usa async porque
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp().then((value) {
