@@ -1,39 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:googleapis/shared.dart';
 import 'classroom.dart';
 import 'agregarTarea.dart';
 import 'iniciarSesionGoogle.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'tareasPendientes.dart';
+import 'package:googleapis/classroom/v1.dart';
 
-//usa async porque
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) {
-    runApp(
-      const MaterialApp(
-        title: 'Proyecto modular',
-        home: TareasPendientesWidget(),
-        supportedLocales: [Locale('en', ''), Locale('es', '')],
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-      ),
-    );
-  });
-}
-
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+class TareasPendientesWidget extends StatefulWidget {
+  const TareasPendientesWidget({Key? key}) : super(key: key);
   @override
   State createState() => WidgetSate();
 }
 
-class WidgetSate extends State<HomeWidget> {
+class WidgetSate extends State<TareasPendientesWidget> {
   String texto = '';
 
   @override
@@ -61,10 +41,9 @@ class WidgetSate extends State<HomeWidget> {
 
   Widget buildBody() {
     final GoogleSignInAccount? user = usuarioActual;
-    bool customTileExpanded = false;
     if (user != null) {
       return SingleChildScrollView(
-        child: Column(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           ListTile(
@@ -75,7 +54,6 @@ class WidgetSate extends State<HomeWidget> {
             subtitle: Text(user.email),
           ),
           const Text('Inicio de sesión exitoso.'),
-
           //se usa streambuilder para detectar cambios en la base de datos de firebase
           StreamBuilder(
               stream: FirebaseFirestore.instance.collection("usuarios/${usuarioActual?.id}/tareas").snapshots(),
@@ -86,39 +64,27 @@ class WidgetSate extends State<HomeWidget> {
                   );
                 } else {
                   var mapa = snapshot.data?.docs;
-                  return FutureBuilder<Map<dynamic, dynamic>>(
-                    future: obtenerMateriasYTareas(user),
-                    builder: (context, AsyncSnapshot<Map<dynamic, dynamic>> projectSnap) {
-                      var materiasYTareas = projectSnap.data;
-                      if (materiasYTareas != null) {
+                  return FutureBuilder<ListCourseWorkResponse>(
+                    future: obtenerTareas(user),
+                    builder: (context, AsyncSnapshot<ListCourseWorkResponse> projectSnap) {
+                      var homework = projectSnap.data;
+                      if (homework != null) {
                         mapa?.forEach((element) {
                           if (element.get("materia") != null && element.get("nombre") != null) {
-                            materiasYTareas[element.get("materia")] = element;
+                            homework.courseWork?.add(CourseWork(title: element.get("nombre"), dueDate: $Date(day: element.get("fecha").toDate().day, month: element.get("fecha").toDate().month, year: element.get("fecha").toDate().year), dueTime: $TimeOfDay(hours: element.get("fecha").toDate().hour, minutes: element.get("fecha").toDate().minute)));
                           }
                         });
                       }
-                      if (projectSnap.connectionState == ConnectionState.none || materiasYTareas == null) {
+
+                      if (projectSnap.connectionState == ConnectionState.none || homework == null || homework.courseWork == null) {
                         return Container();
                       }
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: materiasYTareas.length,
+                        itemCount: homework.courseWork?.length,
                         itemBuilder: (context, index) {
-                          String key = materiasYTareas.keys.elementAt(index);
-
-                          return Card(
-                            child: ExpansionTile(
-                              title: Text(key),
-                              trailing: Icon(
-                                customTileExpanded ? Icons.arrow_drop_down_circle : Icons.arrow_drop_down,
-                              ),
-                              onExpansionChanged: (bool expanded) {
-                                setState(() => customTileExpanded = expanded);
-                              },
-                              children: obtenerWidgetListaTareas(materiasYTareas[key]),
-                            ),
-                          );
+                          return TileTareas(homework.courseWork![index]);
                         },
                       );
                     },
@@ -131,7 +97,7 @@ class WidgetSate extends State<HomeWidget> {
           ),
           ElevatedButton(
             child: const Text('Recargar'),
-            onPressed: () => obtenerMateriasYTareas(user),
+            onPressed: () => obtenerTareas(user),
           ),
           ElevatedButton(
             child: const Text('AgregarTarea'),

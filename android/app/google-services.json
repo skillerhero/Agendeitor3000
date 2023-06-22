@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "242424802162",
+    "project_id": "asignacionesclassroom",
+    "storage_bucket": "asignacionesclassroom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242424802162:android:694feb6c68522ee1178beb",
+        "android_client_info": {
+          "package_name": "com.example.agendeitor3000"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242424802162-6q8v0ucd4nsuhn07qact09h9hn9vhf5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBysGZNokpN-YP4XE-FdmuAmQa4qc0LcLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242424802162-6q8v0ucd4nsuhn07qact09h9hn9vhf5r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "242424802162-1r587a2t66ghi42rfmrot23hejj0ru1k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classroom"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
