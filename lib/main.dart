@@ -54,7 +54,7 @@ class WidgetSate extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Prueba de classroom'),
+          title: const Text('Prueba de Yess'),
         ),
         body: ConstrainedBox(constraints: const BoxConstraints.expand(), child: buildBody()));
   }
