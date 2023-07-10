@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mi aplicación'),
+        title: Text('Agendeitor 3000'),
       ),
       body: Center(
         child: ElevatedButton(
