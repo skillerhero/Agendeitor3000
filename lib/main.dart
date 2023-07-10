@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: InitializerWidget(),
+      home: const InitializerWidget(),
     );
   }
 }
 
 class InitializerWidget extends StatefulWidget {
+  const InitializerWidget({super.key});
+
   @override
   _InitializerWidgetState createState() => _InitializerWidgetState();
 }
@@ -52,16 +56,18 @@ class _InitializerWidgetState extends State<InitializerWidget> {
   @override
   Widget build(BuildContext context) {
     if(_error) {
-      return SomethingWentWrong();
+      return const SomethingWentWrong();
     }
     if (!_initialized) {
       return Loading();
     }
-    return HomePage();
+    return const HomePage();
   }
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   // Asumiendo que ya tienes un método para iniciar sesión
   void signIn() async {
     // Tu lógica de inicio de sesión aquí...
@@ -71,12 +77,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agendeitor 3000'),
+        title: const Text('Agendeitor 3000'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: signIn,
-          child: Text('Iniciar sesión'),
+          child: const Text('Iniciar sesión'),
         ),
       ),
     );
@@ -84,18 +90,22 @@ class HomePage extends StatelessWidget {
 }
 
 class SomethingWentWrong extends StatelessWidget {
+  const SomethingWentWrong({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('Algo salió mal')),
     );
   }
 }
 
 class Loading extends StatelessWidget {
+  const Loading({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: CircularProgressIndicator()),
     );
   }
