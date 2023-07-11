@@ -28,7 +28,6 @@ class InitializerWidget extends StatefulWidget {
 }
 
 class _InitializerWidgetState extends State<InitializerWidget> {
-
   bool _initialized = false;
   bool _error = false;
 
@@ -40,7 +39,7 @@ class _InitializerWidgetState extends State<InitializerWidget> {
       setState(() {
         _initialized = true;
       });
-    } catch(e) {
+    } catch (e) {
       setState(() {
         _error = true;
       });
@@ -55,7 +54,7 @@ class _InitializerWidgetState extends State<InitializerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(_error) {
+    if (_error) {
       return const SomethingWentWrong();
     }
     if (!_initialized) {
@@ -79,10 +78,35 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Agendeitor 3000'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: signIn,
-          child: const Text('Iniciar sesión'),
+      body: Container(
+
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 44, 46, 51), // Cambia esto a tu color de fondo
+          image: DecorationImage(
+            image: AssetImage("assets/logo.png"),
+            fit: BoxFit.none, 
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Lógica cuando se presiona el primer botón
+                  print('Se presionó el primer botón');
+                },
+                child: Text('Iniciar Sesión'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Lógica cuando se presiona el segundo botón
+                  print('Se presionó el segundo botón');
+                },
+                child: Text('Registrarse'),
+              ),
+            ],
+          ),
         ),
       ),
     );
