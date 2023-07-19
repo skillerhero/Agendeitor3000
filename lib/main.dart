@@ -1,5 +1,8 @@
+import 'package:agendeitor3000/iniciarSesionGoogle.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import './registrarse.dart'; // Importar la pantalla de inicio de sesión
+import './iniciarSesion.dart'; // Importar la pantalla de registro
 
 void main() {
   runApp(const MyApp());
@@ -78,8 +81,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Agendeitor 3000'),
       ),
-      body: Container(
 
+      body: Container(
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 44, 46, 51), // Cambia esto a tu color de fondo
           image: DecorationImage(
@@ -93,6 +96,10 @@ class HomePage extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => IniciarSesion()),
+                    );
                   // Lógica cuando se presiona el primer botón
                   print('Se presionó el primer botón');
                 },
@@ -100,6 +107,10 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Registrarse()),
+                    );
                   // Lógica cuando se presiona el segundo botón
                   print('Se presionó el segundo botón');
                 },
